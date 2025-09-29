@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 
@@ -14,7 +14,7 @@ export function TileGame({ level, onBack }: TileGameProps) {
   const [feedback, setFeedback] = useState<string>("");
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
 
-  const generateQuestion = () => {
+  const generateQuestion = useCallback(() => {
     const maxNum = level === "beginner" ? 5 : level === "intermediate" ? 10 : 10;
     const a = Math.floor(Math.random() * maxNum) + 1;
     const b = Math.floor(Math.random() * maxNum) + 1;
@@ -36,11 +36,11 @@ export function TileGame({ level, onBack }: TileGameProps) {
     setOptions(allOptions);
     setFeedback("");
     setIsCorrect(null);
-  };
+  }, [level]);
 
   useEffect(() => {
     generateQuestion();
-  }, [level]);
+  }, [level, generateQuestion]);
 
   const handleAnswer = (selectedAnswer: number) => {
     const correct = selectedAnswer === question.answer;
@@ -52,6 +52,7 @@ export function TileGame({ level, onBack }: TileGameProps) {
       setTimeout(() => generateQuestion(), 1500);
     } else {
       setFeedback(`Spróbuj ponownie! Prawidłowa odpowiedź to ${question.answer}`);
+      setTimeout(() => generateQuestion(), 1500);
     }
   };
 

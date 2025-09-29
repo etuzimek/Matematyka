@@ -15,7 +15,7 @@ export function InputGame({ level, onBack }: InputGameProps) {
   const [feedback, setFeedback] = useState<string>("");
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
 
-  const inputRef = useRef<HTMLInputElement>(null); // Ref do inputu
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const generateQuestion = useCallback(() => {
     const maxNum = level === "beginner" ? 5 : level === "intermediate" ? 10 : 10;
@@ -28,7 +28,6 @@ export function InputGame({ level, onBack }: InputGameProps) {
     setFeedback("");
     setIsCorrect(null);
 
-    // Ustawiamy fokus na input po małym delay, żeby input był gotowy
     setTimeout(() => inputRef.current?.focus(), 50);
   }, [level]);
 
@@ -42,7 +41,7 @@ export function InputGame({ level, onBack }: InputGameProps) {
     setIsCorrect(correct);
 
     if (correct) {
-      setScore(score + 15); // Punkty za poprawną odpowiedź
+      setScore(score + 15);
       setFeedback("Doskonale! 🌟");
       setTimeout(() => generateQuestion(), 1500);
     } else {
@@ -82,7 +81,7 @@ export function InputGame({ level, onBack }: InputGameProps) {
 
             <div className="max-w-md mx-auto mb-6">
               <Input
-                ref={inputRef} // Podpinamy ref
+                ref={inputRef}
                 type="number"
                 value={userAnswer}
                 onChange={(e) => setUserAnswer(e.target.value)}
