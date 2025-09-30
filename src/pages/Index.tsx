@@ -1,74 +1,62 @@
-import { useState } from "react";
-import { SkillLevel } from "@/components/SkillLevel";
-import { GameSelector } from "@/components/GameSelector";
-import { TileGame } from "@/components/TileGame";
-import { InputGame } from "@/components/InputGame";
+import { useState } from 'react';
+import { SubjectSelect } from '@/components/SubjectSelect';
+import { ChapterSelector } from '@/components/ChapterSelector';
+import { TileGame } from '@/components/TileGame';
+import { InputGame } from '@/components/InputGame';
 
-type AppState = "skill-selection" | "game-selection" | "tile-game" | "input-game" | "story-game";
+type AppState =
+  | 'subject-selection'
+  | 'chapter-selection'
+  | 'tile-game'
+  | 'input-game'
+  | 'story-game';
 
 const Index = () => {
-  const [currentState, setCurrentState] = useState<AppState>("skill-selection");
-  const [selectedLevel, setSelectedLevel] = useState<string>("");
+  const [currentState, setCurrentState] = useState<AppState>('subject-selection');
+  const [selectedSubject, setSelectedSubject] = useState<string>('');
 
-  const handleLevelSelect = (level: string) => {
-    setSelectedLevel(level);
-    setCurrentState("game-selection");
+  const handleSubjectSelect = (subject: string) => {
+    setSelectedSubject(subject);
+    setCurrentState('chapter-selection');
   };
 
-  const handleGameSelect = (gameType: string) => {
-    switch (gameType) {
-      case "tile":
-        setCurrentState("tile-game");
-        break;
-      case "input":
-        setCurrentState("input-game");
-        break;
-      case "story":
-        // Coming soon - will be implemented later
-        alert("Tryb opowiadań będzie dostępny wkrótce! 📚");
-        break;
-    }
+  const handleChapterSelect = (chapterId: string) => {
+    // Na razie wszystkie działy otwierają TileGame
+    setCurrentState('tile-game');
   };
 
-  const handleBackToGameSelection = () => {
-    setCurrentState("game-selection");
+  const handleBackToChapterSelection = () => {
+    setCurrentState('chapter-selection');
   };
 
-  const handleBackToLevelSelection = () => {
-    setCurrentState("skill-selection");
+  const handleBackToSubjectSelection = () => {
+    setCurrentState('subject-selection');
   };
 
   switch (currentState) {
-    case "skill-selection":
-      return <SkillLevel onLevelSelect={handleLevelSelect} />;
-    
-    case "game-selection":
+    case 'subject-selection':
+      return <SubjectSelect onSubjectSelect={handleSubjectSelect} />;
+
+    case 'chapter-selection':
       return (
-        <GameSelector 
-          level={selectedLevel}
-          onGameSelect={handleGameSelect}
-          onBack={handleBackToLevelSelection}
+        <ChapterSelector
+          onChapterSelect={handleChapterSelect}
+          onBack={handleBackToSubjectSelection}
         />
       );
-    
-    case "tile-game":
+
+    case 'tile-game':
       return (
-        <TileGame 
-          level={selectedLevel}
-          onBack={handleBackToGameSelection}
-        />
+        <TileGame level={selectedSubject} onBack={handleBackToChapterSelection} />
       );
-    
-    case "input-game":
+
+    case 'input-game':
       return (
-        <InputGame 
-          level={selectedLevel}
-          onBack={handleBackToGameSelection}
-        />
+        <InputGame level={selectedSubject} onBack={handleBackToChapterSelection} />
       );
-    
+
     default:
-      return <SkillLevel onLevelSelect={handleLevelSelect} />;
+      return <SubjectSelect onSubjectSelect={handleSubjectSelect} />;
   }
 };
 
