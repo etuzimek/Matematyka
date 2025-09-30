@@ -41,7 +41,7 @@ export function InputGame({ level, onBack }: InputGameProps) {
     setIsCorrect(correct);
 
     if (correct) {
-      setScore(score + 15);
+      setScore(score + 1);
       setFeedback("Doskonale! 🌟");
       setTimeout(() => generateQuestion(), 1500);
     } else {
