@@ -1,11 +1,10 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
-interface SubjectSelectProps {
-  onSubjectSelect: (subject: string) => void;
-}
+export function SubjectSelect() {
+  const navigate = useNavigate();
 
-export function SubjectSelect({ onSubjectSelect }: SubjectSelectProps) {
   const subjects = [
     {
       id: "polish",
@@ -45,7 +44,7 @@ export function SubjectSelect({ onSubjectSelect }: SubjectSelectProps) {
               key={subject.id}
               className="transition-all duration-300 hover:scale-105 hover:shadow-card animate-bounce-in cursor-pointer h-full"
               style={{ animationDelay: `${index * 0.2}s` }}
-              onClick={() => onSubjectSelect(subject.id)}
+              onClick={() => navigate(`/${subject.id}`)}
             >
               <CardContent className="p-6 text-center flex flex-col h-full">
                 <div
